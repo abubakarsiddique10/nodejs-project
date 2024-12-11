@@ -1,6 +1,8 @@
 // dependencies
 const data = require('../../lib/data.js');
 const { hash, parseJSON } = require('../../helpers/utilities.js');
+const tokenHandler = require('./tokenHandler.js')
+
 
 const handler = {};
 handler.userHandler = (requestPropertise, callBack) => {
@@ -16,18 +18,27 @@ handler.userHandler = (requestPropertise, callBack) => {
 
 handler._users = {};
 handler._users.get = function (requestPropertise, callBack) {
-    const queryString = '01857927912';
+    const queryString = '01610961138';
     const phone = typeof (queryString) === "string" && queryString.trim().length === 11 ? queryString : false;
 
     if (phone) {
-        data.read('users', phone, (err, user) => {
-            if (!err && user) {
-                const parseJson = JSON.parse(user)
-                delete parseJson.password
-                callBack(200, parseJson)
+        const token = 'h1foxif8kmzauko2l1xci'
+        tokenHandler._token.verufy(token, phone, (tokenId) => {
+            if (tokenId) {
+                data.read('users', phone, (err, user) => {
+                    if (!err && user) {
+                        const parseJson = JSON.parse(user)
+                        delete parseJson.password
+                        callBack(200, parseJson)
+                    } else {
+                        callBack(404, {
+                            error: 'Requested user was not fount'
+                        })
+                    }
+                })
             } else {
-                callBack(404, {
-                    error: 'Requested user was not fount'
+                callBack(403, {
+                    error: 'Authentication failed'
                 })
             }
         })

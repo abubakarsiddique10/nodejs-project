@@ -17,14 +17,20 @@ handler.handleReqRes = (req, res) => {
     // get the user request method
     let method = req.method.toLowerCase();
     // for post method
-    method = "post"
+    // method = "get"
     // method = "put"
     // method = "delete"
+    // method = 'post'
     // get the query string
     const queryString = pathParsed.query;
     // get the headers
     const headers = req.headers;
 
+    // create token
+    /* const person = {
+        phone: "01610961138",
+        password: "123456",
+    } */
     const person = {
         firstName: "Abu",
         lastName: "Bakar",
